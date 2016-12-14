@@ -30,9 +30,10 @@
 		var h = 300;
 
 		//Define map projection
+		//https://github.com/d3/d3-geo/blob/master/README.md#projections
 		var projection = d3.geo.mercator()
 							   .center([ 0, 40 ])
-							   .translate([ w/2, h/2 ])
+							   .translate([ w/2, h/2 ]) //middle of chart
 							   .scale([ w/7 ]);
 
 		//Define path generator
@@ -47,18 +48,18 @@
 
 		//Load in GeoJSON data
 		d3.json("data/geo/mapshaper_output.json", function(json) {
-			
+
 			//Bind data and create one path per GeoJSON feature
 			svg.selectAll("path")
 			   .data(json.features)
 			   .enter()
 			   .append("path")
 			   .attr("d", path);
-	
+
 		});
 
 
-	
+
 	</script>
 </body>
 </html>

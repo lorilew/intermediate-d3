@@ -68,11 +68,11 @@
 				//Get the translate and scale values from this event
 				var t = d3.event.translate;
 				var s = d3.event.scale;
-				
+
 				//Update the zoom and projection objects with these
 				zoom.translate(t);
 				projection.translate(t).scale(s);
-				
+
 				//Recalculate paths (given new t and s values)
 				countries.attr("d", path);
 
@@ -83,7 +83,7 @@
 					   .attr("cy", function(d) {
 						   return projection([d.longitude, d.latitude])[1];
 					   });
-					   
+
 			});
 
 		//Define zoom in and out functions that we can call easily later
@@ -102,7 +102,7 @@
 
 			var t = projection.translate(),
 				s = projection.scale();
-			
+
 			t[0] -= w / 2;
 			t[0] *= newScale / s;
 			t[0] += w / 2;
@@ -110,7 +110,7 @@
 			t[1] -= h * 0.55;
 			t[1] *= newScale / s;
 			t[1] += h * 0.55;
-			
+
 			zoom.translate(t).scale(newScale);
 			projection.translate(t).scale(newScale);
 
@@ -165,40 +165,40 @@
 
 			//Set input domain for color scale
 			color.domain([
-				d3.min(data, function(d) { return +d[year]; }), 
+				d3.min(data, function(d) { return +d[year]; }),
 				d3.max(data, function(d) { return +d[year]; })
 			]);
 
 			//Load in GeoJSON data
 			d3.json("data/geo/mapshaper_output.json", function(json) {
-				
+
 				//Merge the CO2 data and GeoJSON into a single array
 				//
 				//Loop through once for each CO2 data value
 				for (var i = 0; i < data.length; i++) {
-			
+
 					//Grab country name
 					var dataCountryCode = data[i].countryCode;
-					
+
 					//Grab data value, and convert from string to float
 					var dataValue = +data[i][year];
-			
+
 					//Find the corresponding country inside the GeoJSON
 					for (var j = 0; j < json.features.length; j++) {
-					
+
 						//We'll check the official ISO country code
 						var jsonCountryCode = json.features[j].properties.iso_a3;
-			
+
 						if (dataCountryCode == jsonCountryCode) {
-					
+
 							//Copy the data value into the GeoJSON
 							json.features[j].properties.co2 = dataValue;
-							
+
 							//Stop looking through the JSON
 							break;
-							
+
 						}
-					}		
+					}
 				}
 
 				//Create a group to contain all the country paths.
@@ -240,7 +240,7 @@
 
 				//Load in cities data
 				d3.csv("data/cities/cities.csv", function(data) {
-					
+
 					cities = svg.selectAll("circle")
 					   .data(data)
 					   .enter()
@@ -256,7 +256,7 @@
 					   })
 					   .style("fill", "blue")
 					   .style("opacity", 0.75);
-					
+
 				});
 
 			});  //End d3.json()
@@ -264,7 +264,7 @@
 		});  //End d3.csv()
 
 
-	
+
 	</script>
 </body>
 </html>
